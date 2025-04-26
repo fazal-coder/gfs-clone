@@ -1,0 +1,658 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>GFS Builders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .merriweather {
+            font-family: 'Merriweather', serif;
+        }
+        
+        .header-sticky {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+        
+        .header-sticky.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .gradient-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+            z-index: 1;
+        }
+        
+        .section-bg {
+            background: linear-gradient(to bottom, #f9fafb, #ffffff);
+        }
+        
+        .carousel-item {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .carousel-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        button,
+        a {
+            transition: all 0.2s ease;
+        }
+        /* Projects Carousel */
+        
+        .projects-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .projects-carousel .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .projects-carousel .carousel-item {
+            flex: 0 0 100%;
+            max-width: 100%;
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+        
+        .projects-carousel .carousel-item.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .projects-carousel .image-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+            z-index: 1;
+        }
+        
+        .projects-carousel .pagination-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .projects-carousel .dot {
+            width: 12px;
+            height: 12px;
+            background: #d1d5db;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .projects-carousel .dot.active {
+            background: #b91c1c;
+        }
+        /* News Section */
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .news-carousel {
+            display: none;
+        }
+        
+        .news-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .news-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .news-item img {
+            transition: transform 0.3s ease;
+        }
+        
+        .news-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .play-pause-btn {
+            display: none;
+            background: #b91c1c;
+            color: white;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .play-pause-btn i {
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .news-grid {
+                display: none;
+            }
+            .news-carousel {
+                display: flex;
+                overflow-x: hidden;
+            }
+            .news-carousel .carousel-item {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            .play-pause-btn {
+                display: block;
+            }
+        }
+        /* Header Underline Animation */
+        
+        .header-underline {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .header-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #b91c1c;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .header-underline:hover::after {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header -->
+    <header class="w-full border-b border-gray-200 header-sticky">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+            <a class="flex items-center" href="#">
+                <img alt="GFS Builders red logo on white background" class="h-12 w-auto" height="48" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/GFSlogo.png" width="144" />
+            </a>
+            <nav class="hidden md:flex space-x-8 text-base font-medium text-gray-600">
+                <a class="hover:text-red-700 transition-colors" href="#">Home</a>
+                <a class="hover:text-red-700 transition-colors" href="#">Services</a>
+                <a class="hover:text-red-700 transition-colors" href="#">Projects</a>
+                <a class="hover:text-red-700 transition-colors" href="#">Media</a>
+                <a class="hover:text-red-700 transition-colors" href="#">About Us</a>
+                <a class="hover:text-red-700 transition-colors" href="#">Blogs</a>
+                <a class="hover:text-red-700 transition-colors" href="#">Contact Us</a>
+            </nav>
+            <a class="hidden md:inline-block bg-red-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-red-800 transition-colors" href="#">Get a Quote</a>
+            <button aria-label="Toggle menu" class="md:hidden text-gray-600 focus:outline-none focus:ring-2 focus:ring-red-700" id="mobile-menu-button">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+        </div>
+        <nav class="fixed inset-y-0 right-0 w-3/4 max-w-sm bg-white shadow-lg p-6 space-y-4 text-base font-medium text-gray-600 mobile-menu hidden md:hidden" id="mobile-menu">
+            <a class="block hover:text-red-700 transition-colors" href="#">Home</a>
+            <a class="block hover:text-red-700 transition-colors" href="#">Services</a>
+            <a class="block hover:text-red-700 transition-colors" href="#">Projects</a>
+            <a class="block hover:text-red-700 transition-colors" href="#">Media</a>
+            <a class="block hover:text-red-700 transition-colors" href="#">About Us</a>
+            <a class="block hover:text-red-700 transition-colors" href="#">Blogs</a>
+            <a class="block hover:text-red-700 transition-colors" href="#">Contact Us</a>
+            <a class="block bg-red-700 text-white text-center text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-red-800 transition-colors" href="#">Get a Quote</a>
+        </nav>
+    </header>
+    <!-- Hero Section -->
+    <section class="relative w-full gradient-overlay">
+        <img alt="City buildings and construction site with sunlight shining through" class="w-full h-[700px] object-cover" height="700" src="https://storage.googleapis.com/a1aa/image/57d3a21b-92bd-4360-3221-a8c12f280225.jpg" width="1920" />
+        <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-6 max-w-5xl mx-auto z-10" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
+            <h1 class="merriweather text-white text-5xl sm:text-6xl font-bold leading-tight">Your Dream Space</h1>
+            <h2 class="merriweather text-red-600 text-5xl sm:text-6xl font-bold leading-tight mt-2">Our Passion</h2>
+            <p class="text-white text-base sm:text-lg mt-6 max-w-4xl leading-relaxed font-light">GFS Builders and Developers are creating trend-setting housing by connecting comforts and high-standard utilities to their cities. Everyone can attain their dream house and turn their vision into reality with GFS, a trusted local construction
+                company in Pakistan.</p>
+            <a href="#" class="mt-8 bg-red-700 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-red-800 transition-colors">Explore Our Projects</a>
+        </div>
+    </section>
+    <!-- Company Introduction Section -->
+    <section class="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center section-bg">
+        <div class="flex justify-center md:justify-start">
+            <img alt="Portrait of CEO in tan suit with arms crossed" class="rounded-lg max-w-full h-auto shadow-lg" height="500" src="https://gfsbuilders.com.pk/wp-content/uploads/2024/04/Message-From-Our-CEO-686x1024.png" width="400" />
+        </div>
+        <div>
+            <h2 class="merriweather text-4xl font-bold mb-6">Company <span class="text-red-700">Introduction</span></h2>
+            <p class="text-base leading-relaxed mb-6 font-light">GFS Builders and Developers lead in delivering mega housing schemes and commercial buildings in Pakistan. Under the visionary leadership of CEO Mr. Imran Khalid, with over 15 years of experience, we provide affordable, high-quality housing
+                solutions.
+            </p>
+            <p class="text-base leading-relaxed mb-6 font-light">Mr. Imran Khalid’s commitment to ethics and innovation has earned GFS a stellar reputation. We focus on quality, customer satisfaction, and enhancing Pakistan’s real estate culture through innovative design and craftsmanship.</p>
+            <h3 class="merriweather text-2xl font-bold mt-10 mb-4">A Message From Our <span class="text-red-700">CEO</span></h3>
+            <p class="text-base leading-relaxed font-light">At GFS, we are dedicated to delivering top-quality, affordable housing with transparency and personally or we’ll be deliver you best professional product. We are always here to help you and provide you best services. We are here to help you
+                to get access to very valuable properties.</p>
+        </div>
+    </section>
+    <!-- Featured Projects Carousel -->
+    <section class="bg-gradient-to-b from-gray-100 to-gray-200 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="merriweather text-center text-3xl font-bold text-red-700 mb-8 header-underline">Our Best Projects</h2>
+            <div class="projects-carousel">
+                <button aria-label="Previous" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-red-700 text-white p-4 rounded-full shadow-lg hover:bg-red-800 transition z-10" id="prevFeatured">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-inner" id="featuredProjects">
+                    <div class="carousel-item rounded-lg shadow-xl bg-white">
+                        <div class="relative image-overlay">
+                            <img alt="7 Wonders City" class="rounded-t-lg w-full h-96 object-cover" height="384" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/7-wonder-city-1.webp" width="1200" />
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="merriweather text-xl font-bold text-gray-800 mb-2">7 Wonders City</h3>
+                            <p class="text-base font-light text-gray-600 mb-4">A landmark residential project inspired by global architectural marvels, offering premium amenities and modern living spaces.</p>
+                            <a href="#" class="inline-block bg-red-700 text-white text-sm font-semibold px-6 py-2 rounded-lg hover:bg-red-800 transition-colors">View Project</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item rounded-lg shadow-xl bg-white">
+                        <div class="relative image-overlay">
+                            <img alt="Platinum Residency" class="rounded-t-lg w-full h-96 object-cover" height="384" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/bolan-platinum.webp" width="1200" />
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="merriweather text-xl font-bold text-gray-800 mb-2">Platinum Residency</h3>
+                            <p class="text-base font-light text-gray-600 mb-4">Luxury apartments designed for comfort and elegance, featuring state-of-the-art facilities in a prime location.</p>
+                            <a href="#" class="inline-block bg-red-700 text-white text-sm font-semibold px-6 py-2 rounded-lg hover:bg-red-800 transition-colors">View Project</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item rounded-lg shadow-xl bg-white">
+                        <div class="relative image-overlay">
+                            <img alt="DHA City Villas" class="rounded-t-lg w-full h-96 object-cover" height="384" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/DHA-1.webp" width="1200" />
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="merriweather text-xl font-bold text-gray-800 mb-2">DHA City Villas</h3>
+                            <p class="text-base font-light text-gray-600 mb-4">Exclusive villas in a secure community, blending modern design with serene surroundings.</p>
+                            <a href="#" class="inline-block bg-red-700 text-white text-sm font-semibold px-6 py-2 rounded-lg hover:bg-red-800 transition-colors">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                <button aria-label="Next" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-red-700 text-white p-4 rounded-full shadow-lg hover:bg-red-800 transition z-10" id="nextFeatured">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="pagination-dots" id="projectDots"></div>
+            </div>
+        </div>
+    </section>
+    <!-- What Can We Offer Section -->
+    <section class="max-w-7xl mx-auto px-6 py-20 section-bg">
+        <h2 class="merriweather text-center text-3xl font-bold text-red-700 mb-8">Our Best Services</h2>
+        <h3 class="merriweather text-center text-2xl font-bold text-red-700 mb-12">What Can We Offer?</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-white shadow-lg rounded-lg p-8 hover:shadow-xl transition-shadow">
+                <div class="text-red-700 mb-4 text-4xl"><i class="fas fa-tree"></i></div>
+                <h4 class="merriweather font-semibold text-xl mb-3">Developing Land</h4>
+                <p class="text-base font-light text-gray-600 leading-relaxed mb-6">Transforming land for building with grading, drainage, and infrastructure installation.</p>
+                <button class="bg-gray-900 text-white text-sm px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors">Read More...</button>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 hover:shadow-xl transition-shadow">
+                <div class="text-red-700 mb-4 text-4xl"><i class="fas fa-building"></i></div>
+                <h4 class="merriweather font-semibold text-xl mb-3">Property</h4>
+                <p class="text-base font-light text-gray-600 leading-relaxed mb-6">Acquiring and developing land or buildings for sale or rental with strategic planning.</p>
+                <button class="bg-gray-900 text-white text-sm px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors">Read More...</button>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 hover:shadow-xl transition-shadow">
+                <div class="text-red-700 mb-4 text-4xl"><i class="fas fa-home"></i></div>
+                <h4 class="merriweather font-semibold text-xl mb-3">Housing Societies</h4>
+                <p class="text-base font-light text-gray-600 leading-relaxed mb-6">Creating residential communities with amenities and security for comfortable living.</p>
+                <button class="bg-gray-900 text-white text-sm px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors">Read More...</button>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 hover:shadow-xl transition-shadow">
+                <div class="text-red-700 mb-4 text-4xl"><i class="fas fa-industry"></i></div>
+                <h4 class="merriweather font-semibold text-xl mb-3">Industrial Land</h4>
+                <p class="text-base font-light text-gray-600 leading-relaxed mb-6">Developing land for manufacturing, warehousing, and logistics facilities.</p>
+                <button class="bg-gray-900 text-white text-sm px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors">Read More...</button>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 hover:shadow-xl transition-shadow">
+                <div class="text-red-700 mb-4 text-4xl"><i class="fas fa-store"></i></div>
+                <h4 class="merriweather font-semibold text-xl mb-3">Commercial Lands</h4>
+                <p class="text-base font-light text-gray-600 leading-relaxed mb-6">Developing retail, office, and service business properties for leasing.</p>
+                <button class="bg-gray-900 text-white text-sm px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors">Read More...</button>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-8 hover:shadow-xl transition-shadow">
+                <div class="text-red-700 mb-4 text-4xl"><i class="fas fa-swimming-pool"></i></div>
+                <h4 class="merriweather font-semibold text-xl mb-3">Amenity Lands</h4>
+                <p class="text-base font-light text-gray-600 leading-relaxed mb-6">Creating recreational facilities like parks and community buildings.</p>
+                <button class="bg-gray-900 text-white text-sm px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors">Read More...</button>
+            </div>
+        </div>
+    </section>
+    <!-- Partners Section -->
+    <section class="bg-gray-900 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center items-center gap-12">
+            <img alt="Partner 1 logo" class="h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/0f47ef67-46b5-4b52-5a1a-dc42c855b393.jpg" width="120" />
+            <img alt="Partner 2 logo" class="h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/cf056c24-3182-4c1e-0f37-d633a45bb642.jpg" width="120" />
+            <img alt="Partner 3 logo" class="h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/01cbf19e-34ca-49f2-2084-d4e7776c5229.jpg" width="120" />
+            <img alt="Partner 4 logo" class="h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/5db564d5-2a9e-4c66-6541-65b58322ee6b.jpg" width="120" />
+            <img alt="Partner 5 logo" class="h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/c074a899-c239-40bf-d750-59a7af5b0579.jpg" width="120" />
+            <img alt="Partner 6 logo" class="h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/82e7a2b1-fcc5-4aab-bcf6-f1ec358e837b.jpg" width="120" />
+        </div>
+    </section>
+    <!-- Project Gallery -->
+    <section class="max-w-7xl mx-auto px-6 py-20 section-bg">
+        <h2 class="merriweather text-center text-3xl font-bold text-red-700 mb-8">Our Projects</h2>
+        <h3 class="merriweather text-center text-2xl font-bold text-red-700 mb-12">Project Gallery</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <div class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img alt="DHA City Multan Villas project image" class="w-full h-52 object-cover" height="208" src="https://storage.googleapis.com/a1aa/image/ceb3f17c-4dda-4b5a-54f9-2378f5867935.jpg" width="300" />
+                <div class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-60 text-white text-sm p-3 font-semibold">DHA City Multan Villas</div>
+            </div>
+            <div class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img alt="Kohat Town Residency project image" class="w-full h-52 object-cover" height="208" src="https://storage.googleapis.com/a1aa/image/48713621-af9a-4fef-1d18-92dee942251e.jpg" width="300" />
+                <div class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-60 text-white text-sm p-3 font-semibold">Kohat Town Residency</div>
+            </div>
+            <div class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img alt="Malir Town Residency project image" class="w-full h-52 object-cover" height="208" src="https://storage.googleapis.com/a1aa/image/9c2851d8-5e50-4a44-5a97-e96cacf5b997.jpg" width="300" />
+                <div class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-60 text-white text-sm p-3 font-semibold">Malir Town Residency</div>
+            </div>
+            <div class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img alt="Modern villa interior and exterior image" class="w-full h-52 object-cover" height="208" src="https://storage.googleapis.com/a1aa/image/5d600ebc-1f74-4d88-d18a-740856cb885e.jpg" width="300" />
+                <div class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-60 text-white text-sm p-3 font-semibold">Modern Villa Interior & Exterior</div>
+            </div>
+            <div class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img alt="7 Wonders City project image" class="w-full h-52 object-cover" height="208" src="https://storage.googleapis.com/a1aa/image/704acf11-dd07-4aca-31c8-f609ef1f745c.jpg" width="300" />
+                <div class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-60 text-white text-sm p-3 font-semibold">7 Wonders City</div>
+            </div>
+            <div class="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <img alt="DHA City Villas project image" class="w-full h-52 object-cover" height="208" src="https://storage.googleapis.com/a1aa/image/75bf01e3-c1ba-4e91-0636-b7002d475039.jpg" width="300" />
+                <div class="absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-60 text-white text-sm p-3 font-semibold">DHA City Villas</div>
+            </div>
+        </div>
+        <div class="flex justify-center mt-10">
+            <button class="bg-red-700 text-white text-sm font-semibold px-8 py-3 rounded-lg hover:bg-red-800 transition-colors">View More Images</button>
+        </div>
+    </section>
+    <!-- Contact Us Banner -->
+    <section class="bg-gray-900 text-red-700 text-center py-8 px-6 flex flex-col sm:flex-row justify-center items-center gap-6">
+        <p class="text-lg font-semibold">We'd Love To Hear From You!</p>
+        <div class="flex gap-4">
+            <button class="bg-red-700 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-red-800 transition-colors">Live Chat</button>
+            <button class="bg-red-700 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-red-800 transition-colors">Call Us Now</button>
+        </div>
+    </section>
+    <!-- Our Directors -->
+    <section class="max-w-7xl mx-auto px-6 py-20 text-center section-bg">
+        <h2 class="text-sm text-gray-500 uppercase mb-4 tracking-widest">Our Team</h2>
+        <h3 class="merriweather text-3xl font-bold text-red-700 mb-12">Our Directors</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            <div class="hover:shadow-lg transition-shadow rounded-lg p-4">
+                <img alt="Director 1 image in blue suit" class="mx-auto rounded-lg" height="250" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/sdds.webp" width="200" />
+                <h4 class="merriweather text-red-700 font-semibold mt-4 text-xl">Mansoor Khalid</h4>
+                <p class="text-base font-light text-gray-600">Managing Director</p>
+            </div>
+            <div class="border-2 border-red-700 rounded-lg p-4 hover:shadow-lg transition-shadow">
+                <img alt="Director 2 image in tan suit" class="mx-auto rounded-lg" height="250" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/sd.webp" width="200" />
+                <h4 class="merriweather text-red-700 font-semibold mt-4 text-xl">Imran Khalid</h4>
+                <p class="text-base font-light text-gray-600">Chief Executive Officer</p>
+            </div>
+            <div class="hover:shadow-lg transition-shadow rounded-lg p-4">
+                <img alt="Director 3 image in maroon suit" class="mx-auto rounded-lg" height="250" src="https://gfsbuilders.com.pk/wp-content/uploads/2023/09/Mohsin-Hi-Res-1024x1024.webp" width="200" />
+                <h4 class="merriweather text-red-700 font-semibold mt-4 text-xl">Jibran Khalid</h4>
+                <p class="text-base font-light text-gray-600">Executive Director & Marketing Head</p>
+            </div>
+        </div>
+    </section>
+    <!-- Latest News Section -->
+    <section class="max-w-7xl mx-auto px-6 py-20 section-bg">
+        <h2 class="merriweather text-center text-3xl font-bold text-red-700 mb-8 header-underline">Latest News</h2>
+        <div class="relative">
+            <button aria-label="Previous news" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-red-700 text-white p-4 rounded-full shadow-lg hover:bg-red-800 transition z-10 md:hidden" id="prevNews">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="news-grid">
+                <div class="news-item rounded-lg shadow-xl bg-white overflow-hidden">
+                    <img alt="News 1 image with GFS logo" class="w-full h-64 object-cover" height="256" src="https://storage.googleapis.com/a1aa/image/91cdbbe7-1e4e-41fd-f9fc-44b6291f7799.jpg" width="400" />
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">April 20, 2025</p>
+                        <h3 class="merriweather text-lg font-bold text-gray-800 mb-3">Admin Notice | GFS | CEO, Team and Board</h3>
+                        <p class="text-base font-light text-gray-600 mb-4">Updates from our leadership on upcoming initiatives and strategic goals.</p>
+                        <a href="#" class="text-red-700 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+                <div class="news-item rounded-lg shadow-xl bg-white overflow-hidden">
+                    <img alt="News 2 image with GFS logo" class="w-full h-64 object-cover" height="256" src="https://storage.googleapis.com/a1aa/image/1890b924-e571-4c06-e74e-8ab1a4eeb729.jpg" width="400" />
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">April 15, 2025</p>
+                        <h3 class="merriweather text-lg font-bold text-gray-800 mb-3">Zohra Hussain | Multi Town Residency</h3>
+                        <p class="text-base font-light text-gray-600 mb-4">Celebrating the success of our latest residential project launch.</p>
+                        <a href="#" class="text-red-700 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+                <div class="news-item rounded-lg shadow-xl bg-white overflow-hidden">
+                    <img alt="News 3 image with GFS logo" class="w-full h-64 object-cover" height="256" src="https://storage.googleapis.com/a1aa/image/7352fc2b-fa0d-4ffd-f59d-73f0c6ee1f4c.jpg" width="400" />
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">April 10, 2025</p>
+                        <h3 class="merriweather text-lg font-bold text-gray-800 mb-3">North Town Residency Pre-Launch</h3>
+                        <p class="text-base font-light text-gray-600 mb-4">Highlights from the pre-launch ceremony of our flagship project.</p>
+                        <a href="#" class="text-red-700 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="news-carousel space-x-6" id="newsCarousel">
+                <div class="carousel-item rounded-lg shadow-xl bg-white">
+                    <img alt="News 1 image with GFS logo" class="rounded-t-lg w-full h-64 object-cover" height="256" src="https://storage.googleapis.com/a1aa/image/91cdbbe7-1e4e-41fd-f9fc-44b6291f7799.jpg" width="400" />
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">April 20, 2025</p>
+                        <h3 class="merriweather text-lg font-bold text-gray-800 mb-3">Admin Notice | GFS | CEO, Team and Board</h3>
+                        <p class="text-base font-light text-gray-600 mb-4">Updates from our leadership on upcoming initiatives and strategic goals.</p>
+                        <a href="#" class="text-red-700 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+                <div class="carousel-item rounded-lg shadow-xl bg-white">
+                    <img alt="News 2 image with GFS logo" class="rounded-t-lg w-full h-64 object-cover" height="256" src="https://storage.googleapis.com/a1aa/image/1890b924-e571-4c06-e74e-8ab1a4eeb729.jpg" width="400" />
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">April 15, 2025</p>
+                        <h3 class="merriweather text-lg font-bold text-gray-800 mb-3">Zohra Hussain | Multi Town Residency</h3>
+                        <p class="text-base font-light text-gray-600 mb-4">Celebrating the success of our latest residential project launch.</p>
+                        <a href="#" class="text-red-700 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+                <div class="carousel-item rounded-lg shadow-xl bg-white">
+                    <img alt="News 3 image with GFS logo" class="rounded-t-lg w-full h-64 object-cover" height="256" src="https://storage.googleapis.com/a1aa/image/7352fc2b-fa0d-4ffd-f59d-73f0c6ee1f4c.jpg" width="400" />
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">April 10, 2025</p>
+                        <h3 class="merriweather text-lg font-bold text-gray-800 mb-3">North Town Residency Pre-Launch</h3>
+                        <p class="text-base font-light text-gray-600 mb-4">Highlights from the pre-launch ceremony of our flagship project.</p>
+                        <a href="#" class="text-red-700 font-semibold hover:underline">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <button aria-label="Next news" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-red-700 text-white p-4 rounded-full shadow-lg hover:bg-red-800 transition z-10 md:hidden" id="nextNews">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="play-pause-btn absolute right-4 top-10 bg-red-700 text-white p-2 rounded-full shadow-lg hover:bg-red-800 transition z-10" id="playPauseNews">
+                <i class="fas fa-pause"></i>
+            </button>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-20 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="merriweather text-red-700 text-2xl font-bold mb-6">Get in Touch With Us!</h3>
+                <div class="space-y-4 max-w-md">
+                    <input class="w-full px-4 py-3 text-sm rounded-lg border border-gray-700 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Full Name" type="text" />
+                    <input class="w-full px-4 py-3 text-sm rounded-lg border border-gray-700 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Email Address" type="email" />
+                    <input class="w-full px-4 py-3 text-sm rounded-lg border border-gray-700 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Contact Number" type="text" />
+                    <input class="w-full px-4 py-3 text-sm rounded-lg border border-gray-700 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Your Message" type="text" />
+                    <select class="w-full px-4 py-3 text-sm rounded-lg border border-gray-700 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-700">
+                        <option>-- Select Service --</option>
+                        <option>Developing Land</option>
+                        <option>Property</option>
+                        <option>Housing Societies</option>
+                        <option>Industrial Land</option>
+                        <option>Commercial Lands</option>
+                        <option>Amenity Lands</option>
+                    </select>
+                    <button class="bg-red-700 text-white text-sm font-semibold px-8 py-3 rounded-lg hover:bg-red-800 transition-colors">Submit</button>
+                </div>
+            </div>
+            <div class="bg-white text-gray-800 rounded-lg p-8 max-w-md mx-auto shadow-lg">
+                <h3 class="merriweather text-red-700 text-2xl font-bold mb-4">Our Contact Details</h3>
+                <h4 class="font-semibold mb-2 text-lg">How Can We Help You?</h4>
+                <p class="text-base mb-6 font-light leading-relaxed">Contact us anytime via call, message, or visit our office. We’re here to deliver professional services and help you access valuable properties.</p>
+                <h5 class="font-semibold mb-1 text-base">Head Office</h5>
+                <address class="text-base not-italic mb-6 font-light leading-relaxed">4th Floor, Al-Murtaza Commercial Centre, Azad Road, Opposite 1st National Bank, Karachi, Pakistan</address>
+                <div class="flex flex-col space-y-4 text-base font-light">
+                    <div class="flex items-center gap-3"><i class="fas fa-phone-alt text-red-700"></i><span>Toll Free: 0800-600-600</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-envelope text-red-700"></i><span>Email: info@gfsbuilders.com</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-whatsapp text-red-700"></i><span>WhatsApp: +92 321 123 4567</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 text-center text-gray-400 text-base">© 2024 GFS Builders. All rights reserved.</div>
+        <div class="mt-4 flex justify-center space-x-6 text-gray-400 text-lg">
+            <a aria-label="Facebook" class="hover:text-red-700 transition-colors" href="#"><i class="fab fa-facebook-f"></i></a>
+            <a aria-label="Twitter" class="hover:text-red-700 transition-colors" href="#"><i class="fab fa-twitter"></i></a>
+            <a aria-label="Instagram" class="hover:text-red-700 transition-colors" href="#"><i class="fab fa-instagram"></i></a>
+            <a aria-label="LinkedIn" class="hover:text-red-700 transition-colors" href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </footer>
+    <script>
+        // Sticky header on scroll
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('open');
+        });
+
+        // Projects Carousel
+        const featuredProjects = document.getElementById('featuredProjects');
+        const prevFeatured = document.getElementById('prevFeatured');
+        const nextFeatured = document.getElementById('nextFeatured');
+        const projectDots = document.getElementById('projectDots');
+        const projectItems = featuredProjects.children;
+        let currentProjectIndex = 0;
+
+        // Create pagination dots
+        for (let i = 0; i < projectItems.length; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToProjectSlide(i));
+            projectDots.appendChild(dot);
+        }
+
+        function updateProjectCarousel() {
+            featuredProjects.style.transform = `translateX(-${currentProjectIndex * 100}%)`;
+            Array.from(projectItems).forEach((item, index) => {
+                item.classList.toggle('active', index === currentProjectIndex);
+            });
+            Array.from(projectDots.children).forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentProjectIndex);
+            });
+        }
+
+        function goToProjectSlide(index) {
+            currentProjectIndex = index;
+            updateProjectCarousel();
+            clearInterval(projectAutoScroll);
+            projectAutoScroll = setInterval(nextProjectSlide, 5000);
+        }
+
+        function nextProjectSlide() {
+            currentProjectIndex = (currentProjectIndex + 1) % projectItems.length;
+            updateProjectCarousel();
+        }
+
+        let projectAutoScroll = setInterval(nextProjectSlide, 5000);
+        prevFeatured.addEventListener('click', () => {
+            clearInterval(projectAutoScroll);
+            currentProjectIndex = (currentProjectIndex - 1 + projectItems.length) % projectItems.length;
+            updateProjectCarousel();
+            projectAutoScroll = setInterval(nextProjectSlide, 5000);
+        });
+        nextFeatured.addEventListener('click', () => {
+            clearInterval(projectAutoScroll);
+            nextProjectSlide();
+            projectAutoScroll = setInterval(nextProjectSlide, 5000);
+        });
+
+        // News Carousel
+        const newsCarousel = document.getElementById('newsCarousel');
+        const prevNews = document.getElementById('prevNews');
+        const nextNews = document.getElementById('nextNews');
+        const playPauseNews = document.getElementById('playPauseNews');
+        const newsItems = newsCarousel.children;
+        let currentNewsIndex = 0;
+        let isNewsPlaying = true;
+
+        function updateNewsCarousel() {
+            newsCarousel.style.transform = `translateX(-${currentNewsIndex * 100}%)`;
+        }
+
+        function nextNewsSlide() {
+            currentNewsIndex = (currentNewsIndex + 1) % newsItems.length;
+            updateNewsCarousel();
+        }
+
+        let newsAutoScroll = setInterval(nextNewsSlide, 5000);
+        prevNews.addEventListener('click', () => {
+            clearInterval(newsAutoScroll);
+            currentNewsIndex = (currentNewsIndex - 1 + newsItems.length) % newsItems.length;
+            updateNewsCarousel();
+            if (isNewsPlaying) newsAutoScroll = setInterval(nextNewsSlide, 5000);
+        });
+        nextNews.addEventListener('click', () => {
+            clearInterval(newsAutoScroll);
+            nextNewsSlide();
+            if (isNewsPlaying) newsAutoScroll = setInterval(nextNewsSlide, 5000);
+        });
+        playPauseNews.addEventListener('click', () => {
+            isNewsPlaying = !isNewsPlaying;
+            playPauseNews.innerHTML = `<i class="fas fa-${isNewsPlaying ? 'pause' : 'play'}"></i>`;
+            if (isNewsPlaying) {
+                newsAutoScroll = setInterval(nextNewsSlide, 5000);
+            } else {
+                clearInterval(newsAutoScroll);
+            }
+        });
+    </script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger chat-icon="https://www.svgrepo.com/show/220724/chat-speech-bubble.svg" intent="WELCOME" chat-title="GFS Chatbot" agent-id="324c0af6-acbf-4007-b1e9-8df2f39eebdd" language-code="en" chat-icon-background="rgb(0, 164, 189)" chat-icon-color="white"></df-messenger>
+</body>
+
+</html>
